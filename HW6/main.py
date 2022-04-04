@@ -61,20 +61,6 @@ resid_2=arma_model_1.fit()
 initial_fcst_aic=resid_1.forecast(steps=2)
 initial_fcst_bic=resid_2.forecast(steps=2)
 
-#computing the errors
-error_base_aic_2period = dataframe.iloc[train_sample:train_sample+2,0] - initial_fcst_aic
-error_base_bic_2period = dataframe.iloc[train_sample:train_sample+2,0] - initial_fcst_bic
-
-#Computing the mean squared error
-rmse_aic_2period = (error_base_aic_2period**2).mean()**0.5
-rmse_bic_2period = (error_base_bic_2period**2).mean()**0.5
-
-#saving RMSE
-rmse_2period = {
-    "ARMA, order (4,0,0), with const": rmse_aic_2period,
-    "ARMA, order (1,0,0), with const": rmse_bic_2period
-}
-
 
 #https://otexts.com/fpp2/simple-methods.html
 
@@ -86,26 +72,10 @@ bic_fcst_naive_last=pd.DataFrame([dataframe.iloc[train_sample-1], dataframe.iloc
 aic_fcst_naive_mean=pd.DataFrame([dataframe.iloc[0:train_sample].mean(), dataframe.iloc[0:train_sample].mean()])
 bic_fcst_naive_mean=pd.DataFrame([dataframe.iloc[0:train_sample].mean(), dataframe.iloc[0:train_sample].mean()]) 
 
+#Dictionary that will save the errors
+rmse_2period = {
+}
 
-#must add the option .values[0] because it is returning  more than just the number
-error_base_naive_last_aic_2period = dataframe.iloc[train_sample:train_sample+2,0].values[0] - aic_fcst_naive_last.values[0]
-error_base_naive_last_bic_2period = dataframe.iloc[train_sample:train_sample+2,0].values[0] - bic_fcst_naive_last.values[0]
-
-error_base_naive_mean_aic_2period = dataframe.iloc[train_sample:train_sample+2,0].values[0] - aic_fcst_naive_mean.values[0]
-error_base_naive_mean_bic_2period = dataframe.iloc[train_sample:train_sample+2,0].values[0] - aic_fcst_naive_mean.values[0]
-
-#Computing the mean squared error
-rmse_aic_last_2period = (error_base_naive_last_aic_2period**2).mean()**0.5
-rmse_bic_last_2period = (error_base_naive_last_bic_2period**2).mean()**0.5
-
-rmse_aic_mean_2period = (error_base_naive_mean_aic_2period**2).mean()**0.5
-rmse_bic_mean_2period = (error_base_naive_mean_bic_2period**2).mean()**0.5
-
-rmse_2period["Naive, last data point, order (4,0,0), with const"]=rmse_aic_last_2period
-rmse_2period["Naive, last data point, order (1,0,0), with const"]=rmse_aic_last_2period
-
-rmse_2period["Naive, training sample average, order (4,0,0), with const"]=rmse_aic_mean_2period
-rmse_2period["Naive, training sample average, order (1,0,0), with const"]=rmse_bic_mean_2period
 
 def genforecast(nforecasts,arima_order,arima_trend,data,tsize):
 # Setup forecasts
