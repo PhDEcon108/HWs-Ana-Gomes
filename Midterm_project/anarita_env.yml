@@ -1,4 +1,4 @@
-name: prophet_env
+name: anarita_env
 channels:
   - defaults
 dependencies:
@@ -16,9 +16,9 @@ dependencies:
   - matplotlib-inline
   - fbprophet
   - scikit-image
-  - scikit-hts
-  - scikit-learn
   - ipywidgets
   - statsmodels
   - pmdarima
+  - pip:
+    - scikit-hts
 prefix: C:\Users\anari\anaconda3\envs\prophet_env
